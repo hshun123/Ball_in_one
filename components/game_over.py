@@ -7,11 +7,15 @@ class Gameover():
     def __init__(self,screen, width, height, trial) -> None:
         # self.small_font = pygame.font.SysFont('Corbel', 150)
         # self.title_font = pygame.font.SysFont('Corbel', 320)
-        self.small_font = pygame.font.Font('font/fofbb_reg.ttf', 120)
+        self.small_font = pygame.font.Font('font/fofbb_reg.ttf', 100)
         self.title_font = pygame.font.Font('font/fofbb_reg.ttf', 230)
         self.text = self.small_font.render('End Game', True, colors.WHITE)
-        self.score = self.small_font.render('Your Score : ' + str(trial), True, colors.WHITE)
+        self.score = self.small_font.render('Your Total Tries : ' + str(trial), True, colors.WHITE)
         self.title = self.title_font.render('Game Over', True, colors.WHITE)
+
+        # leaader
+        # self.leader = self.small_font.render('Best User records', True, colors.WHITE)
+
         self.width = width
         self.height = height
         self.start_button_width = 800
@@ -45,7 +49,7 @@ class Gameover():
                     # button the game is terminated 
                     if start_button_pos_x <= mouse[0] <= start_button_pos_x + start_button_width and start_button_pos_y <= mouse[1] <= start_button_pos_y + start_button_height: 
                         # pygame.quit()
-                        sys.exit()
+                        # sys.exit()
                         return False
                         
             # fills the screen with a color 
@@ -60,21 +64,26 @@ class Gameover():
             # if mouse is hovered on a button it 
             # changes to lighter shade 
             if start_button_pos_x <= mouse[0] <= start_button_pos_x + start_button_width and start_button_pos_y <= mouse[1] <= start_button_pos_y + start_button_height: 
-                pygame.draw.rect(screen,colors.COLOR_LIGHT,[start_button_pos_x, start_button_pos_y, start_button_width, start_button_height],0,20) 
+                pygame.draw.rect(screen,colors.BUTTON_GREEN,[start_button_pos_x, start_button_pos_y, start_button_width, start_button_height],0,20) 
                 
             else: 
-                pygame.draw.rect(screen,colors.COLOR_DARK,[start_button_pos_x, start_button_pos_y, start_button_width, start_button_height],0,20) 
+                pygame.draw.rect(screen,colors.COLOR_LIGHT,[start_button_pos_x, start_button_pos_y, start_button_width, start_button_height],0,20) 
             
-            # superimposing the text onto our button 
+            # button rect 
             text_rect = self.text.get_rect(center = (start_button_pos_x + start_button_width * 0.5, start_button_pos_y + start_button_height * 0.5))
             screen.blit(self.text , text_rect)
-
+            
+            # score
             score_rect = self.text.get_rect(center = (start_button_pos_x + start_button_width * 0.4, start_button_pos_y - start_button_height * 0.5))
             screen.blit(self.score , score_rect)
 
-            # superimposing the text onto our button 
+            # title
             title_rect = self.title.get_rect(center = (title_text_pos_x, title_text_pos_y))
             screen.blit(self.title , title_rect)
+
+            # # learder
+            # leader_rect = self.leader.get_rect(center = (title_text_pos_x, start_button_pos_y + start_button_height * 1.4))
+            # screen.blit(self.leader, leader_rect)
 
             # bottom image
             screen.blit(self.bottom_img,(-1, 800 - self.bottom_img.get_height() * 0.5))

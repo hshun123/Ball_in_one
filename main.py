@@ -21,6 +21,9 @@ from stage.stage_06 import Stage_06
 from components.start import Start
 from pygame import mixer
 
+from stage.stage_07 import Stage_07
+from stage.stage_08 import Stage_08
+
 
 # 1, 2,3,4 -> ball, wall, brick, goal
 
@@ -32,7 +35,7 @@ win_heght = 800
 
 trial = 0
 stage_num = 1
-num_of_stage = 6
+num_of_stage = 8
 # start_button_flag = False
 
 
@@ -68,7 +71,10 @@ def stage_select(stg_num):
         return Stage_05(space, screen)
     elif stage_num == 6:
         return Stage_06(space, screen)
-    
+    elif stage_num == 7:
+        return Stage_07(space, screen)
+    elif stage_num == 8:
+        return Stage_08(space, screen)
     return Stage(space, screen)
     
 
@@ -103,7 +109,7 @@ def game_main(st1):
     # collision handler
     colliede_handler = space.add_collision_handler(1, 4)
     colliede_handler.post_solve = goal_1.finished
-    print(colliede_handler.post_solve)
+    # print(colliede_handler.post_solve)
     
     while running:
         # --- Main event loop
@@ -186,16 +192,16 @@ def game_main(st1):
         
         main_ball.update(screen)
 
-        options = pymunk.pygame_util.DrawOptions(screen)
-        if(debug_draw):
-            space.debug_draw(options)
+        # options = pymunk.pygame_util.DrawOptions(screen)
+        # if(debug_draw):
+        #     space.debug_draw(options)
 
         
         if goal_1.complete:
             stage_num += 1
             scaled_star = pygame.transform.scale(goal_1.explosion_img, (30, 30))
             goal_rec = scaled_star.get_rect(center = goal_1.body.position)
-            print('log:', scaled_star, goal_rec)
+            # print('log:', scaled_star, goal_rec)
             screen.blit(scaled_star, goal_rec)
             
             for i in range(50):
@@ -210,21 +216,22 @@ def game_main(st1):
 
 st = Start(screen, win_width, win_heght)
 start_button_flag = st.running(screen)
-print(start_button_flag)
+
 
 mixer.music.play(-1)
-count = 1
-while not die and count <= num_of_stage:
-    # play bgm
-    game_main(stage_select(stage_num))
-    space = pymunk.Space()
-    count += 1
+# count = 1
+# while not die and count <= num_of_stage:
+#     # play bgm
+#     game_main(stage_select(stage_num))
+#     space = pymunk.Space()
+#     count += 1
 
+die = False
 if not die:
     mixer.music.stop()
     gg = Gameover(screen, win_width, win_heght, trial)
-    gg.running(screen)
+    restart = gg.running(screen)
 
 
-print(trial)
+# print(trial)
 pygame.quit()
